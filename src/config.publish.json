@@ -1,0 +1,6 @@
+{
+    "environment": "publishing",
+    "managementApiUrl": "https://ph-api-management.management.azure-api.net",
+    "managementApiAccessToken": "SharedAccessSignature integration&202208141234&aMANeY5Xe/0KhE7OqOf37TN57VfgYONMTWX+M/k/2GmHj4RbFJC5UhTBPH6Et/G31FbjFbUSOG3OfY+JEsSIXQ==",
+    "useHipCaptcha": false
+}

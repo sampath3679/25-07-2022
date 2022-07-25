@@ -1,0 +1,7 @@
+{
+    "environment": "development",
+    "managementApiUrl": "https://phapimanagement.management.azure-api.net",
+    "managementApiAccessToken": "SharedAccessSignature integration&202208240531&E73p8xjE5bCSpN702DocPlluGW6jVbcdv2gZDqhdLMOpbOKVmXjO2QWbhTZ43huKuoOm0T9SaI6JYq9NRjuHmQ==",
+    "backendUrl": "https://phapimanagement.developer.azure-api.net/",
+    "useHipCaptcha": false
+}

@@ -1,0 +1,5 @@
+{
+    "environment": "runtime",
+    "managementApiUrl": "https://ph-api-management.management.azure-api.net",
+    "backendUrl": "https://ph-api-management.developer.azure-api.net"
+}
