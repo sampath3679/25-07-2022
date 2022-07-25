@@ -1,0 +1,82 @@
+<!-- ko ifnot: apiType() === 'websocket' || apiType() === 'graphql'-->
+<div class="form-inline max-w-500">
+    <!-- <div class="d-block flex-grow mw-170">
+        <input type="search" class="form-control form-control-light" aria-label="Search operations" placeholder="Search operations" spellcheck="false"
+            data-bind="textInput: pattern" />
+        <tag-input params="{ scope: $component.tagScope, onChange: onTagsChange }"></tag-input>
+    </div> -->
+   
+</div>
+
+<div>
+   <!-- ko if: working -->
+    <spinner class="block"></spinner>
+    <!-- /ko -->
+    <!-- ko ifnot: working -->
+    <!-- ko foreach: { data: operationGroups, as: 'group' } -->
+    <ul>
+        <!-- ko foreach: { data: group.items, as: 'item' } -->
+        <li>
+            <a href="#"
+                data-bind="attr: { href: $component.getReferenceUrl(item) }, css: { 'nav-link-active': $component.selectedOperationName() === item.name }">
+                <div class="row">
+                    <span class="col-md-2" data-bind="attr: { 'data-method':  method }"></span>
+                    <span class="col-md-10"
+                        data-bind="text: ($component.showUrlPath() ? item.urlTemplate : item.displayName), css: { 'text-truncate': !$component.wrapText(), 'text-wrap': $component.wrapText() }, attr: { title: ($component.showUrlPath() ? item.urlTemplate : item.displayName) }"></span>
+                </div>
+            </a>
+        </li>
+        <!-- /ko -->
+    </ul>
+    <!-- /ko -->
+
+    <!-- /ko -->
+</div>
+
+
+<!-- ko ifnot: groupByTag-->
+<div>
+    
+    <!-- ko if: working-->
+    <div class="flex-item flex-grow">
+        <spinner class="block"></spinner>
+    </div>
+    <!-- /ko -->
+
+    <!-- ko ifnot: working-->
+    <div>
+        <!-- ko ifnot: apiType() === 'graphql' -->
+        <!-- ko if: operations -->
+        <ul>
+            <!-- ko foreach: { data: operations, as: 'item' } -->
+            <li>
+                <a href="#"
+                    data-bind="attr: { href: $component.getReferenceUrl(item)}, css: { 'nav-link-active': $component.selectedOperationName() === item.name }">
+                    <div class="row">
+                        <span class="col-md-2" data-bind="attr: { 'data-method': method }"></span>
+                        <span class="col-md-10"
+                            data-bind="text: ($component.showUrlPath() ? item.urlTemplate : item.displayName), css: { 'text-truncate': !$component.wrapText(), 'text-wrap': $component.wrapText() }, attr: { title: ($component.showUrlPath() ? item.urlTemplate : item.displayName) }"></span>
+                    </div>
+                </a>
+            </li>
+            <!-- /ko -->
+        </ul>
+        <!-- /ko -->
+        <!-- ko if: operations().length === 0 -->
+        <div class="list-placeholder list-group-placeholder">
+            No operations found
+        </div>
+        <!-- /ko -->
+        <!-- /ko -->
+    </div>
+    <!-- /ko -->
+</div>
+<!-- /ko -->
+
+<!-- ko ifnot: working -->
+<!-- ko if: $component.totalPages() > 1 -->
+<pagination params="{ pageNumber: $component.pageNumber, totalPages: $component.totalPages }"></pagination>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- /ko -->

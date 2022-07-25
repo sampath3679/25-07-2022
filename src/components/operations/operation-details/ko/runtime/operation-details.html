@@ -1,0 +1,412 @@
+<!-- ko if: working -->
+<spinner class="fit"></spinner>
+<!-- /ko -->
+<!-- ko ifnot: $component.introductionIsOpen -->
+<!-- ko ifnot: working -->
+
+<!-- ko ifnot: apiType() === 'websocket' -->
+<!-- ko if: operation -->
+<div class="animation-fade-in">
+    <div class="operation-header">
+            
+        <h1 class="operation-name">
+            <span data-bind="text: operation().displayName"></span>
+        </h1>
+        <!-- ko if: $component.enableConsole -->
+        <div style="margin-right: -12%">
+        <button class="open-console-button" data-bind="click: $component.openConsole">Try it <i
+                class="icon-emb icon-emb-play"></i>
+        </button>
+        </div>
+        <!-- /ko -->
+        <div class="nav-side-menus">
+
+            <li data-target="#service">
+                <a href="#"><i class="fa fa-globe fa-lg"></i> Request <span class="arrow"></span></a>
+            </li>
+            <ul class="sub-menu" id="service">
+                <div class="CodeBlock" style="min-height: 185px;">
+                    <div class="CodeBlock-scroll">
+
+                        <!-- ko with: operation().request, as: 'request' -->
+                        <!-- ko if: request.isMeaningful() -->
+                        <!-- ko if: request.meaningfulRepresentations().length > 0 -->
+                        <!-- ko foreach: { data: request.meaningfulRepresentations(), as: 'representation' } -->
+                        <!-- ko if: representation.examples -->
+                        <!-- ko foreach: { data: representation.examples, as: 'example' } -->
+                        <code-snippet
+                            params="{ title: example.title, content: example.value, language: example.format }">
+                        </code-snippet>
+                        <!-- /ko -->
+                        <!-- /ko -->
+                        <!-- /ko -->
+                        <!-- /ko -->
+                        <!-- /ko -->
+                        <!-- /ko -->
+
+                    </div>
+                </div>
+            </ul>
+
+
+            <li data-target="#new">
+                <a href="#"><i class="fa fa-car fa-lg"></i> Response <span class="arrow"></span></a>
+            </li>
+            <ul class="sub-menu" id="new">
+                <div class="CodeBlock" style="min-height: 185px;">
+                    <div class="CodeBlock-scroll">
+                        <pre xml:space="preserve"><code class="language-json">
+                         <!-- ko foreach: { data: operation().getMeaningfulResponses(), as: 'response' } -->
+                         <!-- ko if: response.meaningfulRepresentations().length > 0 -->
+                        <!-- ko foreach: { data: meaningfulRepresentations(), as: 'representation' } -->
+                        <!-- ko if: representation.examples -->
+                    <!-- ko foreach: { data: representation.examples, as: 'example' } -->
+                    <code-snippet params="{ title: example.title, content: example.value, language: example.format }">
+                    </code-snippet>
+                    <!-- /ko -->
+                    <!-- /ko -->
+					  <!-- /ko -->
+					  	  <!-- /ko -->
+					  	  <!-- /ko -->
+                </code></pre>
+                    </div>
+                </div>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ko if: operation().description  -->
+    <div class="text-word-break" style="width: 72%" data-bind="markdown: operation().description"></div>
+    <!-- /ko -->
+
+    <!-- ko if: tags().length > 0 -->
+    <div class="tag-group">
+        <!-- ko foreach: { data: $component.tags, as: 'tag' } -->
+        <span class="tag-item" role="group" data-bind="text: tag"></span>
+        <!-- /ko -->
+    </div>
+    <!-- /ko -->
+
+    <div class="collapsible" style="word-wrap: break-word;">
+        <!-- <h3>Request</h3> -->
+
+        <div class="collapsible-container">
+            <!-- <span class="text-monospace"
+                data-bind="text: $component.requestUrlSample, attr: { 'data-method': operation().method }"></span> -->
+            <div class="get" style="width: 72%">
+                <!-- ko if: operation().method == "POST"  -->
+
+                <div class="postMethod">
+
+                    <span data-bind="text: operation().method"></span>
+
+                </div>
+
+                <div class="postMethodUrl" style="padding-top:22px;">
+
+                    <span data-bind="text: $component.requestUrlSample"></span>
+
+                </div>
+
+                <!-- /ko -->
+
+                <!-- ko if: operation().method == "GET" -->
+
+                <div class="getMethod">
+
+                    <span data-bind="text: operation().method"></span>
+
+                </div>
+
+                <div class="getMethodUrl" style="padding-top:22px;">
+
+                    <span data-bind="text: $component.requestUrlSample"></span>
+
+                </div>
+
+                <!-- /ko -->
+
+                <!-- ko if: operation().method == "PUT" -->
+
+                <div class="putMethod">
+
+                    <span data-bind="text: operation().method"></span>
+
+                </div>
+
+                <div class="putMethodUrl" style="padding-top:22px;">
+
+                    <span data-bind="text: $component.requestUrlSample"></span>
+
+                </div>
+
+                <!-- /ko -->
+
+                <!-- ko if: operation().method == "DELETE" -->
+
+                <div class="deleteMethod">
+
+                    <span data-bind="text: operation().method"></span>
+
+                </div>
+
+                <div class="deleteMethodUrl" style="padding-top:22px;">
+
+                    <span data-bind="text: $component.requestUrlSample"></span>
+
+                </div>
+
+                <!-- /ko -->
+
+            </div>
+
+            <!-- ko if: operation().request && operation().request.headers && operation().request.headers.length > 0 -->
+            <div>
+                <h3>Headers</h3>
+            </div>
+
+            <ul class="ulapi" style="width: 71%">
+                <!-- ko foreach: { data: operation().request.headers, as: 'header' } -->
+                <li class="liapi">
+                    <p><span class="attributename" data-bind="text: header.name, attr: { title: header.name }"></span>
+                        <span class="datatype" data-bind="text:header.type "></span>
+                        <span class="required" data-bind="text: header.required ? 'required' : ''"></span>
+                    </p>
+                </li>
+                <!-- /ko -->
+            </ul>
+            <!-- /ko -->
+
+            <!-- ko if: operation().parameters.length > 0 -->
+            <div style="padding-top:15px">
+                <strong class="APISectionHeader-heading4MUMLbp4_nLs">Query Parameters</strong>
+                </div>
+
+            <ul class="ulapi" style="width:71%">
+                <!-- ko foreach: { data: operation().parameters, as: 'parameter' } -->
+                <li class="liapi">
+                    <p><span class="attributename"
+                            data-bind="text: parameter.name, attr: { title: parameter.name }"></span>
+                        <span class="datatype" data-bind="text: parameter.type"></span>
+                        <span class="required" data-bind="text: parameter.required ? 'required' : ''"></span>
+                    </p>
+                    <p data-bind="markdown: parameter.description"></p>
+                </li>
+                <!-- /ko -->
+            </ul>
+            <!-- /ko -->
+
+
+            <!-- ko with: operation().request, as: 'request' -->
+            <!-- ko if: request.isMeaningful() -->
+            <h4>Body Parameters</h4>
+
+
+            <!-- ko if: request.meaningfulRepresentations().length > 0 -->
+            <div class="tabs" style="width: 71%"
+                data-bind="foreach: { data: request.meaningfulRepresentations(), as: 'representation' }">
+                <input class="tab-radio" type="radio" name="requestContentType"
+                    data-bind="attr : { id: 'request' + representation.contentType + '_' + $index(), checked: $index() === 0 }">
+
+                <label class="tab-label"
+                    data-bind="attr : { for: 'request' + representation.contentType + '_' + $index() }, text: representation.contentType"></label>
+
+                <div class="tab-content">
+                    <!-- ko if: representation.typeName -->
+                    <type-definition
+                        params="{ apiName: $component.api().name, operationName: $component.operation().name, definition: $component.getDefinitionForRepresentation(representation), defaultSchemaView: $component.defaultSchemaView }">
+                    </type-definition>
+                    <!-- /ko -->
+
+                    <!-- ko if: representation.examples -->
+                    <!-- ko foreach: { data: representation.examples, as: 'example' } -->
+                    <code-snippet params="{ title: example.title, content: example.value, language: example.format }">
+                    </code-snippet>
+                    <!-- /ko -->
+                    <!-- /ko -->
+                </div>
+            </div>
+            <!-- /ko -->
+            <!-- /ko -->
+
+            <!-- /ko -->
+            <div style="padding-top:15px">
+                <strong class="APISectionHeader-heading4MUMLbp4_nLs">Responses</strong>
+            </div>
+            
+           <!-- ko foreach: { data: operation().getMeaningfulResponses(), as: 'response' } -->
+            <!-- ko if: response.description -->
+            <div class="APIResponseSchemaPicker2ehjUsNOSwdc" style="width:72%">
+                <button type="button"
+                    class="Flex Flex_row APIResponseSchemaPicker-option3CU8y1saVb8O APIResponseSchemaPicker-option_hasContent2GpfP03Ra7oM "
+                    justify="between" style="--flex-gap:20px;">
+                    <div data-bind="click: $component.showDialog">
+                        <div class="APIResponseSchemaPicker-label3XMQ9E-slNcS">
+                            <!-- ko if: response.statusCode.code == "200" -->
+                            <code class="APIResponseSchemaPicker-label-text3bDdrQX1B-h4 HTTPStatus HTTPStatus_2">
+                            <span aria-hidden="false" aria-label="200" class="HTTPStatus-chit"></span>
+                            </code>
+                            <p style="margin-top: 10px;" data-bind="text: response.statusCode.code"></p>
+                            <!-- /ko -->
+                            <!-- ko if: response.statusCode.code == "201" -->
+                            <code class="APIResponseSchemaPicker-label-text3bDdrQX1B-h4 HTTPStatus HTTPStatus_2">
+                                <span aria-hidden="false" aria-label="201" class="HTTPStatus-chit"></span>
+                                </code>
+                                <p style="margin-top: 10px;" data-bind="text: response.statusCode.code"></p>
+                                <!-- /ko -->
+                                <!-- ko if: response.statusCode.code == "400" -->
+                            <code class="APIResponseSchemaPicker-label-text3bDdrQX1B-h4 HTTPStatus HTTPStatus_4">
+                                <span aria-hidden="false" aria-label="400" class="HTTPStatus-chit"></span>
+                                </code>
+                                <p style="margin-top: 10px;" data-bind="text: response.statusCode.code"></p>
+                                <!-- /ko -->
+                                <!-- ko if: response.statusCode.code == "401" -->
+                            <code class="APIResponseSchemaPicker-label-text3bDdrQX1B-h4 HTTPStatus HTTPStatus_4">
+                                <span aria-hidden="false" aria-label="401" class="HTTPStatus-chit"></span>
+                                </code>
+                                <p style="margin-top: 10px;" data-bind="text: response.statusCode.code"></p>
+                                <!-- /ko -->
+                                  <!-- ko if: response.statusCode.code == "403" -->
+                            <code class="APIResponseSchemaPicker-label-text3bDdrQX1B-h4 HTTPStatus HTTPStatus_4">
+                                <span aria-hidden="false" aria-label="403" class="HTTPStatus-chit"></span>
+                                </code>
+                                <p style="margin-top: 10px;" data-bind="text: response.statusCode.code"></p>
+                                <!-- /ko -->
+                                  <!-- ko if: response.statusCode.code == "404" -->
+                            <code class="APIResponseSchemaPicker-label-text3bDdrQX1B-h4 HTTPStatus HTTPStatus_4">
+                                <span aria-hidden="false" aria-label="404" class="HTTPStatus-chit"></span>
+                                </code>
+                                <p style="margin-top: 10px;" data-bind="text: response.statusCode.code"></p>
+                                <!-- /ko -->
+                                  <!-- ko if: response.statusCode.code == "500" -->
+                            <code class="APIResponseSchemaPicker-label-text3bDdrQX1B-h4 HTTPStatus HTTPStatus_5">
+                                <span aria-hidden="false" aria-label="500" class="HTTPStatus-chit"></span>
+                                </code>
+                                <p style="margin-top: 10px;" data-bind="text: response.statusCode.code"></p>
+                                <!-- /ko -->
+                        </div>
+                        <div class="markdown-body APIResponseSchemaPicker-description19iNatTizvwb" data-testid="RDMD">
+                            <p data-bind="text: response.description"></p>
+                        </div>
+                    </div>
+                    <i aria-label="Open" class="APIResponseSchemaPicker-maximize33luzmit048e icon-maximize-2">
+                    </i>
+                </button>
+
+            </div>
+            <!-- /ko -->
+            <!-- /ko -->
+        </div>
+    </div>
+</div>
+<!-- /ko -->
+
+<!-- ko ifnot: apiType() === 'graphql' -->
+<!-- ko ifnot: operation -->
+<p>No operation selected.</p>
+<!-- /ko -->
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: apiType() === 'websocket' -->
+<!-- ko if: operation -->
+<div style="width:71%" class="animation-fade-in">
+    <div class="operation-header">
+        <h2 class="operation-name"></h2>
+        <!-- ko if: $component.enableConsole -->
+        <button class="open-console-button" data-bind="click: $component.openConsole">Try it <i
+                class="icon-emb icon-emb-play"></i>
+        </button>
+        <!-- /ko -->
+    </div>
+
+    <!-- ko if: tags().length > 0 -->
+    <div class="tag-group">
+        <!-- ko foreach: { data: $component.tags, as: 'tag' } -->
+        <span class="tag-item" role="group" data-bind="text: tag"></span>
+        <!-- /ko -->
+    </div>
+    <!-- /ko -->
+
+    <div class="collapsible">
+        <h3>Socket URL</h3>
+        <div class="collapsible-container">
+            <span class="text-monospace" data-bind="text: $component.requestUrlSample"></span>
+        </div>
+
+        <h3>Protocol</h3>
+        <div class="collapsible-container">
+            <span class="text-monospace" data-bind="text: $component.protocol"></span>
+        </div>
+    </div>
+
+</div>
+<!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: apiType() === 'graphql' -->
+<div style="width:71%" class="animation-fade-in">
+    <div class="operation-header">
+        <div>
+            <h2>GraphQL endpoint</h2>
+            <span class="monospace" data-bind="text: $component.requestUrlSample"></span>
+        </div>
+        <!-- ko if: $component.enableConsole -->
+        <div>
+            <button class="open-console-button graph mt-17" data-bind="click: $component.openConsole">Try it <i
+                    class="icon-emb icon-emb-play"></i>
+            </button>
+        </div>
+        <!-- /ko -->
+    </div>
+    <graphql-details></graphql-details>
+</div>
+<!-- /ko -->
+
+<!-- /ko -->
+<!-- ko if: $component.modelpopupIsOpen -->
+
+<!-- ko ifnot: apiType() === 'graphql' -->
+
+<div style="width:71%;" class="detachable-popup flex-grow animation-fade-in">
+
+    <model-popup class="test flex flex-column gql-console-height" data-bind="dialog: {}"
+        params="{ api: api, operation: operation, hostnames: hostnames, responsename:responsename, authorizationServer: associatedAuthServer, useCorsProxy: useCorsProxy }">
+
+    </model-popup>
+
+</div>
+
+<!-- /ko -->
+
+<!-- ko if: apiType() === 'graphql' -->
+
+<div style="width:71%" class="detachable-right graphql-console-width flex-grow animation-fade-in">
+
+    <graphql-console class="gql-console-height flex flex-column" data-bind="dialog: {}"
+        params="{ api: api, hostnames: hostnames, authorizationServer: associatedAuthServer, useCorsProxy: useCorsProxy }">
+
+    </graphql-console>
+
+</div>
+
+<!-- /ko -->
+
+<!-- /ko -->
+<!-- ko if: $component.consoleIsOpen -->
+<!-- ko ifnot: apiType() === 'graphql' -->
+<div style="width:71%" class="detachable-right flex-grow animation-fade-in">
+    <operation-console class="test flex flex-column gql-console-height" data-bind="dialog: {}"
+        params="{ api: api, operation: operation, hostnames: hostnames, authorizationServer: associatedAuthServer, useCorsProxy: useCorsProxy }">
+    </operation-console>
+</div>
+<!-- /ko -->
+<!-- ko if: apiType() === 'graphql' -->
+<div style="width:71%" class="detachable-right graphql-console-width flex-grow animation-fade-in">
+    <graphql-console class="gql-console-height flex flex-column" data-bind="dialog: {}"
+        params="{ api: api, hostnames: hostnames, authorizationServer: associatedAuthServer, useCorsProxy: useCorsProxy }">
+    </graphql-console>
+</div>
+<!-- /ko -->
+<!-- /ko -->
+<!-- /ko -->

@@ -1,0 +1,57 @@
+<div class="form-inline max-w-500">
+    <div class="d-block flex-grow">
+        <input type="search" class="form-control form-control-light searchdesign" aria-label="Search APIs" placeholder="Search APIs"
+            spellcheck="false" data-bind="textInput: pattern" />
+        <tag-input style="display:none" params="{ scope: 'apis', onChange: onTagsChange }"></tag-input>
+    </div>
+
+</div>
+<nav class="Nav3C5f8FcjkaHj hub-sidebar reference-redesign rm-Sidebar">
+<div class="container-fluid">
+    <div class="row">
+        <div class="collapse show d-md-flex bg-light pt-2 pl-0 min-vh-100" id="sidebar">
+            <ul class="nav flex-column flex-nowrap overflow-hidden">
+                <li class="nav-item">
+                    <a data-bind="click:$component.loadStaticFiles.bind($data,'/introduction.html')" class="nav-link collapsed text-truncate" >
+                        <span class="d-none d-sm-inline">Introduction</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a  data-bind="click:$component.loadStaticFiles.bind($data,'/environments.html')" class="nav-link collapsed text-truncate" >
+                        <span class="d-none d-sm-inline">Environments</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a data-bind="click:$component.loadStaticFiles.bind($data,'/authentication.html')" class="nav-link collapsed " >
+                        <span class="d-none d-sm-inline">Authentication and Authorization</span>
+                    </a>
+                </li>
+                  <!-- ko foreach: { data: apis, as: 'item' } -->
+                <li class="nav-item" data-bind="click:  $component.loadOperations.bind($data,$index(), item)">
+
+                    <a class="nav-link collapsed "  data-toggle="collapse" 
+                    data-bind="attr:{href: $component.getReferenceUrl(item),'data-target':'#phApi'+$index(),title: item.displayName, }">
+                        <span class="d-none d-sm-inline" data-bind="text: item.displayName"></span>
+                    </a>
+                    <div class="collapse" data-bind="attr:{id:'phApi'+$index()}" aria-expanded="false">
+                        <!--ko template: { name: 'navigationItemTemplate'}-->
+                         <!--/ko-->
+                    </div>
+                </li>
+                  <!-- /ko -->
+            </ul>
+        </div>
+       
+    </div>
+</div>
+</nav>
+<div class="table" role="table">
+    <!-- ko ifnot: working -->
+    <!-- ko if: $component.totalPages() > 1 -->
+    <pagination params="{ pageNumber: $component.pageNumber, totalPages: $component.totalPages }"></pagination>
+    <!-- /ko -->
+    <!-- /ko -->
+</div>
+<script id="navigationItemTemplate" type="text/html">
+    
+</script>

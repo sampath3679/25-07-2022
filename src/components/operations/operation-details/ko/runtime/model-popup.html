@@ -1,0 +1,26 @@
+<div tabindex="0" class="scrollable panel panel-dark flex-item flex-grow menu menu-horizontal">
+    <!-- ko if: working -->
+    <div class="panel panel-dark fit">
+        <spinner class="fit"></spinner>
+    </div>
+    <!-- /ko -->
+
+    <!-- ko ifnot: working -->
+    <div class="panel panel-dark animation-fade-in" data-bind="with: consoleOperation" >
+        <button type="button" class="no-border pull-right" data-dismiss="modal" aria-label="Close console"
+            data-bind="click: $parents[1].closeConsolepopup">
+            <i class="icon-emb icon-emb-simple-remove"></i>
+        </button>
+    </div>
+        <h3>Response</h3>
+    <!-- ko ifnot: api().type === 'websocket' -->
+
+                    <type-definition
+                        params="{ apiName: $component.api().name, operationName: $component.operation().name, definition: $component.getDefinitionForRepresentation(), defaultSchemaView: $component.defaultSchemaView }">
+                    </type-definition>
+
+                    <code-snippet params="{ title: $component.example.title, content: $component.example.value, language: $component.example.format }">
+                    </code-snippet>
+    <!-- /ko -->
+      <!-- /ko -->
+</div>
